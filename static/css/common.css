@@ -1,0 +1,47 @@
+/* Footer */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+/* To ensure fixed navbar doesn't overlap with content, 66px is the navbar height */
+body{
+   padding-top: 66px;
+}
+
+#container {
+  min-height: 100%;
+  position: relative;
+}
+
+#content {
+  padding-bottom: 350px;
+  /* Height of the footer */
+}
+
+#commonFooter {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 350px;
+  /* Height of the footer */
+}
+
+.mainFooter {
+  margin-top: 2.0rem !important;
+}
+
+/* Navbar */
+.navbar {
+  background-color: #111 !important;
+}
+
+nav a:hover {
+  text-decoration: none !important;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+  color: #fff !important;
+  background-color: #444;
+}

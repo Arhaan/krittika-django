@@ -1,0 +1,17 @@
+{% extends 'commonBase.html' %}
+{% load static %}
+
+{% block head %}
+{% block header %}
+{% endblock %}
+{% endblock %}
+
+{% block logout %}
+<a class="btn btn-link text-light my-2 my-sm-0" href="{% url 'forum:logout' %}"><b
+    class="text-danger lead">Logout</b></a>
+{% endblock %}
+
+{% block body %}
+{% block content %}
+{% endblock %}
+{% endblock %}

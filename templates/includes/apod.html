@@ -1,0 +1,39 @@
+<div class="text-center col-md-12 mt-3">
+
+  <div class="row">
+    {% if apod_url %}
+    <div class="col-lg-7">
+      {% if apod_media_type == 'video' %}
+      <iframe src="{{ apod_url }}" width="100%" height="100%" frameborder="0"></iframe>
+      {% else %}
+      <img src="{{ apod_url }}" alt="Picture of the day" class="img-fluid shadow-lg w-100 rounded-lg">
+      {% endif %}
+    </div>
+
+    {% if apod_expl and apod_title %}
+    <div class="col-lg-5">
+
+      <div class="d-none d-md-block apod_text_block rounded-lg p-3 shadow-lg bg-light">
+        <div class="container-fluid h1 cinzel">{{ apod_title }}</div>
+        <div class="font-weight-light text-left">{{ apod_expl }}</div>
+        <div class="small text-right">
+          <b class="badge">Credits:
+            <a class="text-secondary" href="https://apod.nasa.gov/apod/" target="_blank">APOD</a>
+          </b>
+        </div>
+      </div>
+
+      <div class="d-md-none d-block card shadow-lg p-3 aboutCard">
+        <div class="container-fluid h3 font-weight-light cinzel">{{ apod_title }}</div>
+        <div class="lead small text-left">{{ apod_expl }}</div>
+        <div class="small text-right">
+          <b class="badge">Credits:
+            <a class="text-secondary" href="https://apod.nasa.gov/apod/" target="_blank">APOD</a>
+          </b>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+    {% endif %}
+  </div>
+</div>

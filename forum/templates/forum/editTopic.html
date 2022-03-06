@@ -1,0 +1,39 @@
+{% extends 'forumBase.html' %}
+
+{% block header %}
+<title>Krittika | Forum | Edit Topic</title>
+{% endblock %}
+
+{% block ckeditorBlock %}
+{{form.media}}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="text-center font-weight-light h1">Edit topic</div>
+  <div class="row justify-content-center px-3 mb-3">
+    <div class="col-md-10 bg-light card p-3">
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <p class="mt-3 h5 lead">Name: &ensp;{{form.name}}</p>
+        <p class="mt-3 h5 lead">
+          Description: ( Please use the full-screen mode : <i class="fas fa-expand-arrows-alt"></i> )
+          (<em class="small">MathJax is supported </em>)
+        </p>
+        <div class="text-center m-3">
+          {{form.description}}
+        </div>
+        {% if user.user_profile.is_moderator %}
+        <p class="mt-3 h5 lead">Approve topic? &ensp;{{form.is_approved}}</p>
+        {% endif %}
+        {% if user.user_profile.is_moderator %}
+        <p class="mt-3 h5 lead">Archive topic? &ensp;{{form.is_archived}}</p>
+        {% endif %}
+        <div class="text-center">
+          <button class="btn btn-success my-2 my-sm-0" type="submit">Save <i class="fas fa-check-circle"></i></button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,185 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!--STYLESHEET LINKS-->
+  {% include 'includes/links.html' %}
+  <!--JS SCRIPTS-->
+  {% include 'includes/script_tags.html' %}
+  <!--MathJax-->
+  {% include 'includes/script_mathjax.html' %}
+
+  <link rel="stylesheet" href="{% static 'css/common.css' %}">
+
+  {% block head %}
+  {% endblock %}
+
+  <style>
+    .navbar {
+      background-color: #111 !important;
+    }
+
+    nav a:hover {
+      text-decoration: none !important;
+    }
+
+    .nav-pills .nav-link.active,
+    .nav-pills .show>.nav-link {
+      color: #fff !important;
+      background-color: #444 !important;
+    }
+
+    /*Mobile-friendly hoverable dropdown*/
+    @media(min-width:480px) {
+      .dropdown:hover .dropdown-menu {
+        display: block !important;
+        margin-top: 0 !important;
+        /* remove the gap so it doesn't close */
+      }
+    }
+
+    .dropdown-menu {
+      background-color: #222 !important;
+    }
+
+    .dropdown-item:hover {
+      background-color: #111 !important;
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <div id="container">
+
+    <div id="content">
+
+      {% block ckeditorBlock %}
+      {% endblock %}
+
+      <!--NAVBAR-->
+      <nav class="navbar fixed-top navbar-inverse navbar-expand-lg navbar-dark bg-dark topNavBar cinzel">
+
+        <a class="" href="{% url 'home' %}">
+          <img src="{% static 'img/logo_gif.gif' %}" alt="logo_gif" class="rounded-lg" height="50px">
+        </a>
+
+        <div class="navbar-brand mx-auto pb-0">
+          <span class="font-weight-light h3 mx-md-4 mx-0">Krittika</span>
+        </div>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+
+          <ul class="navbar-nav ml-auto">
+
+            <li class="nav-item dropdown mx-1">
+              <a class="btn btn-link text-light my-2 my-sm-0 dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="lead">About</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item text-light font-weight-light" href="{% url 'about' %}">About Us</a>
+                <a class="dropdown-item text-light font-weight-light" href="{% url 'team' %}">Our Team</a>
+                <a class="dropdown-item text-light font-weight-light" href="{% url 'contact' %}">Contact Us</a>
+                <a class="dropdown-item text-light font-weight-light" href="{% url 'faqs' %}">FAQs</a>
+                <a class="dropdown-item text-light font-weight-light" href="{% url 'code_of_conduct' %}">Code of
+                  Conduct</a>
+              </div>
+            </li>
+
+            <li class="nav-item mx-1">
+              <a class="btn btn-link text-light my-2 my-sm-0" href="{% url 'forum:forum_home' %}"><b
+                  class="lead">Forum</b></a>
+            </li>
+
+            <li class="nav-item mx-1">
+              <a class="btn btn-link text-light my-2 my-sm-0" href="{% url 'blog:all_posts' %}"><b
+                  class="lead">Blog</b></a>
+            </li>
+
+            <li class="nav-item mx-1">
+              <a class="btn btn-link text-light my-2 my-sm-0" href="{% url 'events:all_events' %}"><b
+                  class="lead">Events</b></a>
+            </li>
+
+            {% if user.is_authenticated %}
+            <li class="nav-item mx-1">
+              <a class="btn btn-link text-light my-2 my-sm-0" href="{% url 'users:profile' %}"><b
+                  class="lead">Profile</b></a>
+            </li>
+
+            <li class="nav-item mx-1">
+              {% block logout %}
+              {% endblock %}
+            </li>
+
+            {% else %}
+            <li class="nav-item mx-1">
+              <a class="btn btn-link text-light my-2 my-sm-0" href="{% url 'users:login' %}"><b class="lead">Login via
+                  SSO</b></a>
+            </li>
+            {% endif %}
+
+            <li class="nav-item my-2 mx-md-0 mx-3">
+              <!--DARK-MODE-SWITCH-->
+              <div class="custom-control custom-switch m-0 p-0">
+                <input type="checkbox" class="custom-control-input d-none" id="darkSwitch" />
+                <label class="custom-control-label darkToggle" for="darkSwitch">
+                  <!-- <img src="{% static 'img/dark-mode-toggle-2.svg' %}" width="25px" alt="dark_mode" id="darkModeImg" onclick="changeImage()"> -->
+                  <div class="dark-mode-img"></div>
+                </label>
+              </div>
+              <script src="{% static 'js/darkmode/dark-mode-switch.min.js' %}"></script>
+            </li>
+
+          </ul>
+        </div>
+      </nav>
+
+      {% include 'includes/messages.html' %}
+
+      <div id="page-content">
+        {% block body %}
+        {% endblock %}
+      </div>
+
+    </div>
+
+    {% include 'includes/footer.html' %}
+
+  </div>
+
+  <!-- <script language="javascript">
+    function changeImage(){
+        var light_mode = location.protocol + "//" + location.hostname + (location.port ? ':'+location.port: '') + "{% static 'img/dark-mode-toggle-2.svg' %}";
+        var dark_mode = location.protocol + "//" + location.hostname + (location.port ? ':'+location.port: '') + "{% static 'img/dark-mode-toggle.svg' %}";
+        if (document.getElementById("darkModeImg").src == light_mode)
+        {
+            console.log("dark");
+            document.getElementById("darkModeImg").src = "{% static 'img/dark-mode-toggle.svg' %}";
+        }
+        else
+        {
+            console.log("light");
+            console.log(document.getElementById("darkModeImg").src);
+            console.log(light_mode);
+            document.getElementById("darkModeImg").src = "{% static 'img/dark-mode-toggle-2.svg' %}";
+        }
+    }
+  </script> -->
+
+</body>
+
+</html>

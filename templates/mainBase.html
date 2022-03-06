@@ -1,0 +1,34 @@
+{% extends 'commonBase.html' %}
+{% load static %}
+
+{% block head %}
+<style>
+  @media (min-width: 768px) {
+    .carouselImg {
+      height: 80vh !important;
+    }
+  }
+
+  .carouselImg {
+    height: 50vh;
+  }
+
+  .apod_text_block {
+    background: rgba(0, 0, 0, 0.6);
+  }
+
+</style>
+
+{% block header %}
+{% endblock %}
+{% endblock %}
+
+{% block logout %}
+<a class="btn btn-link text-light my-2 my-sm-0" href="{% url 'users:logout' %}"><b
+    class="text-danger lead">Logout</b></a>
+{% endblock %}
+
+{% block body %}
+{% block content %}
+{% endblock %}
+{% endblock %}

@@ -1,0 +1,169 @@
+{% extends "blogBase.html" %}
+
+{% block header %}
+<title>Krittika | Blog</title>
+<style>
+  /* .card img{
+      max-width:100%;
+      height:auto !important;
+    } */
+  .card p {
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  @media (min-width: 768px) {
+    .new_post_btn {
+      margin-right: 9em;
+    }
+  }
+
+  /* Set the image to fill its parent and make transparent */
+  .center-cropped {
+    height: 8em;
+    max-width: 100%;
+    object-fit: cover;
+    /* Do not scale the image */
+    object-position: center;
+    /* Center the image within the element */
+  }
+
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid mb-2">
+  <div class="row row-cols-sm-2 justify-content-center bg-light p-4">
+    <div class="col-sm-6 text-sm-left text-center my-md-0 mb-3">
+      <b class="h3 font-weight-light">Recent blogs
+        <sup><a href="{% url 'faqs' %}#blog" class="text-secondary">
+            <i class="fas fa-info-circle" style="font-size:0.75rem;"></i>
+          </a></sup>
+      </b>
+    </div>
+
+    <div class="col-sm-6">
+      <form method="GET" class="form row justify-content-end">
+        <div class="input-group col-md-6">
+          <input class="form-control shadow" type="search" placeholder="Search" name="q" aria-label="Search">
+          <div class="input-group-append shadow">
+            <button class="btn text-secondary input-group-text" type="submit"><i class="fas fa-search"></i></button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% if user.is_authenticated %}
+<div class="container-fluid text-md-right text-center mt-3">
+  <div class="new_post_btn">
+    <a class="btn btn-outline-secondary shadow" href="{% url 'blog:create_post' %}">
+      <b class="h5 lead">New post <i class="far fa-plus-square fa-sm"></i></b>
+    </a>
+  </div>
+</div>
+{% endif %}
+
+<div class="container-fluid">
+  <div class="row row-cols-md-2 mx-md-4 mt-md-0 m-1">
+    <div class="col-md-9">
+      <div class="row row-cols-1 justify-content-center">
+        {% for post in page_obj %}
+        <div class="col-md-9 my-2 px-0">
+          <div class="card p-3 shadow bg-card">
+            <div class="row">
+              <div class="col-md-8">
+                {% if post.tags.all %}
+                <div class="">
+                  {% for tag in post.tags.all %}
+                  <b class="badge border border-secondary bg-light font-weight-light">
+                    {{tag}}
+                  </b>
+                  {% endfor %}
+                </div>
+                {% endif %}
+
+                <div class="h3 mb-0">
+                  <a class="text-dark" href="{{post.slug}}">{{ post.title }}</a>
+                </div>
+                {% if post.subtitle %}
+                <div class="h6 mb-2 font-weight-light text-secondary">
+                  {{ post.subtitle }}
+                </div>
+                {% endif %}
+
+                {% if post.thumbnail %}
+                <div class="d-md-none d-block my-1">
+                  <img src="{{post.thumbnail.url}}" class="img-fluid">
+                </div>
+                {% endif %}
+
+                <div class="">
+                  {% if post.multiple_authors %}
+                  by {{post.multiple_authors}}
+                  {% else %}
+                  by {{ post.author.user_profile.name }}
+                  {% endif %}
+                </div>
+                <div class="text-secondary">
+                  Published on {{ post.date.date }}
+                </div>
+              </div>
+              {% if post.thumbnail %}
+              <div class="col-md-4 d-md-block d-none">
+                <img src="{{post.thumbnail.url}}" alt="post_thumbnail" class="center-cropped float-right">
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="col-md-3 mt-3 p-0">
+      <div class="container card shadow-lg forumPost m-0">
+        <ul class="list-group mt-4 mb-4">
+          <li class="list-group-item bg-light h4 font-weight-light text-center">
+            Trending topics
+          </li>
+          {% load tag_query %}
+          <!--Custom Filter-->
+          {% for tag in trending %}
+          <li class="list-group-item">
+            <a href="?q={{tag|replace_space}}" class="text-secondary">
+              {{tag}}
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="text-center mb-4 mt-4">
+  <span class="step-links">
+    {% if page_obj.has_previous %}
+    <a href="?page=1{%if request.GET.q %}&q={{request.GET.q}}{% endif %}"><i
+        class="fas fa-angle-double-left text-secondary"></i></a>
+    <a href="?page={{ page_obj.previous_page_number }}{%if request.GET.q %}&q={{request.GET.q}}{% endif %}"><i
+        class="fas fa-angle-left text-secondary"></i></a>
+    <!--TO ENSURE PAGINATOR REMAINS CORRECT-->
+    {% endif %}
+
+    <span class="current">
+      Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+    </span>
+
+    {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}{%if request.GET.q %}&q={{request.GET.q}}{% endif %}"><i
+        class="fas fa-angle-right text-secondary"></i></a>
+    <a href="?page={{ page_obj.paginator.num_pages }}{%if request.GET.q %}&q={{request.GET.q}}{% endif %}"><i
+        class="fas fa-angle-double-right text-secondary"></i></a>
+    {% endif %}
+  </span>
+</div>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'mainBase.html' %}
+{% load static %}
+
+{% block header %}
+<title>Krittika | About</title>
+{% endblock %}
+
+{% block content %}
+<div class="text-center mt-5">
+  <a class="btn btn-outline-secondary shadow" href="{% url 'about' %}">About Us</a>
+  <a class="btn btn-outline-secondary shadow" href="{% url 'team' %}">Our Team</a>
+  <a class="btn btn-outline-secondary shadow active">Contact Us</a>
+</div>
+
+<div>
+  <div class="p-3" id="contact">
+    <div class="container card shadow-lg p-4 my-4 col-md-6 contactForm">
+      {% include 'includes/contactForm.html' %}
+    </div>
+  </div>
+</div>
+
+{% endblock %}

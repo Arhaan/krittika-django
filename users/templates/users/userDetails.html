@@ -1,0 +1,58 @@
+{% load static %}
+<div class="card shadow bg-transparent userBackground">
+  {% if profile.profile_picture %}
+  <div class="text-center mt-4">
+    <img src="{{ profile.profile_picture.url }}" class="img-thumbnail bg-transparent shadow"
+      style="height:10rem !important; width:auto;">
+  </div>
+  {% else %}
+  <div class="text-center mt-4">
+    <img src="{% static 'users/img/default_profile.png' %}" class="img-thumbnail bg-transparent shadow"
+      style="height:10rem !important; width:auto;">
+  </div>
+  {% endif %}
+  <div class="container mt-4 mb-4 col-md-8">
+    <ul class="list-group shadow">
+
+      {% if profile.name %}
+      <li class="list-group-item text">
+        <div class="row justify-content-center">
+          <div class="col-6 pl-md-5 ">
+            Name:
+          </div>
+          <div class="col-6 pl-md-5 ">
+            {{ profile.name }}
+          </div>
+        </div>
+      </li>
+      {% endif %}
+
+      {% if profile.roll_number %}
+      <li class="list-group-item">
+        <div class="row justify-content-center">
+          <div class="col-6 pl-md-5 ">
+            Roll Number:
+          </div>
+          <div class="col-6 pl-md-5 ">
+            {{ profile.roll_number }}
+          </div>
+        </div>
+      </li>
+      {% endif %}
+
+      {% if profile.email %}
+      <li class="list-group-item">
+        <div class="row justify-content-center">
+          <div class="col-6 pl-md-5 ">
+            Email:
+          </div>
+          <div class="col-6 pl-md-5 ">
+            {{ profile.email }}
+          </div>
+        </div>
+      </li>
+      {% endif %}
+
+    </ul>
+  </div>
+</div>

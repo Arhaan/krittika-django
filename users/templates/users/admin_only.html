@@ -1,0 +1,74 @@
+{% extends "mainBase.html" %}
+{% load static %}
+
+{% block header %}
+<title>Krittika | Manage Moderators</title>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <div class="container text-center mt-4">
+    <div class="">
+      <div class="h1 font-weight-light">Manage Moderators</div>
+      <a class="btn btn-outline-secondary btn-sm shadow mt-sm-0 mt-2" href="{% url 'users:profile' %}">User Interface <i
+          class="fas fa-user"></i></a>
+      {% if user.user_profile.is_admin or user.user_profile.is_moderator %}
+      <a class="btn btn-outline-secondary btn-sm shadow" href="{% url 'users:admin_interface' %}">Admin Interface <i
+          class="fas fa-users-cog"></i></a>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="row row-cols-md-2 justify-content-center mb-3">
+
+    <div class="col-md-6 my-2">
+      <ul class="list-group shadow">
+        <li class="list-group-item h4 font-weight-light text-center bg-light">
+          Current moderators
+        </li>
+        {% for user in mod %}
+        <li class="list-group-item font-weight-light">
+          {{ user.user_profile.roll_number }} : {{ user.user_profile.name }}
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="col-md-6 my-2">
+
+      <ul class="list-group shadow">
+        <li class="list-group-item h4 font-weight-light text-center bg-light">
+          Add/Remove moderators
+        </li>
+
+        <li class="list-group-item px-md-5">
+          <div class="my-2">
+            <form method="GET" class="form-group">
+              <div class="input-group">
+                <input class="form-control" placeholder="LDAP ID" name="a">
+                <div class="input-group-append">
+                  <button id="addButton" class="btn btn-outline-success" type="submit">Add</button>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <div class="my-2">
+            <form method="GET" class="form-group">
+              <div class="input-group">
+                <input class="form-control" placeholder="LDAP ID" name="r">
+                <div class="input-group-append">
+                  <button id="removeButton" class="btn btn-outline-danger" type="submit">Remove</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}

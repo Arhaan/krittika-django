@@ -1,0 +1,134 @@
+{% extends "forumBase.html" %}
+
+{% block header %}
+<title>Krittika | Forum</title>
+<style>
+  .card img {
+    max-width: 100%;
+    height: auto !important;
+  }
+
+  .card p {
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  .btn:focus,
+  .btn:active,
+  .form-control:focus,
+  .form-control:active {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid mb-2">
+  <div class="row row-cols-sm-2 justify-content-center bg-light p-4">
+    <div class="col-sm-6">
+      <p class="h3 font-weight-light text-sm-left text-center">Recent posts <sup><a href="{% url 'faqs' %}#forum"
+            class="text-secondary">
+            <i class="fas fa-info-circle" style="font-size:0.75rem;"></i>
+          </a></sup></p>
+    </div>
+    <div class="col-sm-6">
+      <form method="GET" class="form row justify-content-end">
+        <div class="input-group col-md-6">
+          <input class="form-control shadow" type="search" placeholder="Search" name="q" aria-label="Search">
+          <div class="input-group-append shadow">
+            <button class="btn text-secondary input-group-text" type="submit"><i class="fas fa-search"></i></button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="text-center mt-3 mb-2">
+  <a class="btn btn-outline-secondary shadow" href="{% url 'forum:all_topics' %}">All topics</a>
+  {% if user.is_authenticated %}
+  <a class="btn btn-outline-secondary shadow" href="{% url 'forum:create_post' %}">New post</a>
+  {% endif %}
+  {% if user.user_profile.is_moderator %}
+  <a class="btn btn-outline-secondary shadow" href="{% url 'forum:add_topic' %}">Add topic</a>
+  {% endif %}
+</div>
+
+<div class="container-fluid">
+  <div class="row row-cols-md-2 mx-md-4 mb-1">
+    <div class="col-md-9">
+      <div class="row row-cols-1 justify-content-center">
+        {% for post in page_obj %}
+        <div class="col-md-9">
+          <div class="card my-2 p-2 shadow forumPost">
+            <a class="text-secondary mr-2 h5" href="{% url 'forum:detailed_post' slug=post.slug %}">
+              &nbsp;{{post.title}}
+              <!--A blank space is added to match the topic's padding to the title's padding-->
+            </a>
+            <div class="text-secondary row container">
+
+              {% for topic in post.topic.all %}
+              &nbsp;
+              <a href="{% url 'forum:detailed_topic' slug=topic.slug %}">
+                <h5 class="lead small badge bg-light card text-secondary">{{topic}}</h5>
+              </a>
+              {% endfor %}
+
+
+              <h5 class="lead small badge font-weight-light mt-1">
+                <b class="font-weight-bold">&centerdot;</b>
+                Posted by <b class="font-weight-bold">{{post.author.user_profile.name}}</b>
+                on {{post.timestamp}}
+              </h5>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="col-md-3 mt-3">
+      <div class="container card shadow-lg forumPost">
+        <ul class="list-group mt-4 mb-4">
+          <li class="list-group-item bg-light h4 font-weight-light text-center">
+            Trending topics
+          </li>
+          {% for topic in trending %}
+          <li class="list-group-item">
+            <a class="text-secondary" href="{% url 'forum:detailed_topic' slug=topic.slug %}">
+              {{topic.name}}
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="text-center mb-4 mt-4">
+  <span class="step-links">
+    {% if page_obj.has_previous %}
+    <a href="?page=1{%if request.GET.q %}&q={{request.GET.q}}{% endif %}"><i
+        class="fas fa-angle-double-left text-secondary"></i></a>
+    <a href="?page={{ page_obj.previous_page_number }}{%if request.GET.q %}&q={{request.GET.q}}{% endif %}"><i
+        class="fas fa-angle-left text-secondary"></i></a>
+    <!--TO ENSURE PAGINATOR REMAINS CORRECT-->
+    {% endif %}
+
+    <span class="current">
+      Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+    </span>
+
+    {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}{%if request.GET.q %}&q={{request.GET.q}}{% endif %}"><i
+        class="fas fa-angle-right text-secondary"></i></a>
+    <a href="?page={{ page_obj.paginator.num_pages }}{%if request.GET.q %}&q={{request.GET.q}}{% endif %}"><i
+        class="fas fa-angle-double-right text-secondary"></i></a>
+    {% endif %}
+  </span>
+</div>
+{% endblock %}

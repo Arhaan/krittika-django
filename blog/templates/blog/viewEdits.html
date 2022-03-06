@@ -1,0 +1,42 @@
+{% extends 'blogBase.html' %}
+
+{% block header %}
+<title>Krittika | Blog | View edits for {{post.title}}</title>
+<style media="screen">
+  .changes ins {
+    background-color: rgba(127, 255, 0, 0.5)
+  }
+
+  .changes del {
+    background-color: rgba(207, 53, 46, 0.5)
+  }
+
+  .changes img {
+    width: 100% !important;
+    height: auto !important;
+  }
+
+</style>
+{% endblock %}
+
+{% block ckeditorBlock %}
+{{form.media}}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="text-center h1 font-weight-light my-3">
+    New Edits Made
+  </div>
+  <hr>
+  <div class="changes">
+    {{changes|safe}}
+  </div>
+  <hr>
+  <div class="">
+    <a class="h5 font-weight-light mr-2 text-success" href="{% url 'blog:approve_edits' slug=post.slug %}">
+      Approve edits <i class="fas fa-clipboard-check"></i>
+    </a>
+  </div>
+</div>
+{% endblock %}

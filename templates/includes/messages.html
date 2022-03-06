@@ -1,0 +1,8 @@
+<!--MESSAGES TO BE DISPLAYED ON TOP-->
+{% if messages %}
+  <ul class="container-fluid text-center text-secondary list-unstyled">
+      {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }} mt-3 alert bg-light"{% endif %}>{{ message }}</li>
+      {% endfor %}
+  </ul>
+{% endif %}

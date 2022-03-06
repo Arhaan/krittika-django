@@ -1,0 +1,94 @@
+{% extends "mainBase.html" %}
+{% load static %}
+
+{% block header %}
+<title>Krittika | {{ user }} {{ super }} | Edit Profile</title>
+<style media="screen">
+  select {
+    width: 50% !important;
+    text-overflow: ellipsis !important;
+  }
+
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container bg-transparent my-4">
+
+  <div class="container text-center mt-4">
+    <div class="">
+      <div class="h1 font-weight-light">Edit Profile</div>
+      <a class="btn btn-outline-secondary btn-sm shadow mt-sm-0 mt-2" href="{% url 'users:profile' %}">Back to Profile
+        <i class="fas fa-user"></i></a>
+    </div>
+  </div>
+
+  <form action="{% url 'users:edit_profile' %}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="container mt-4 mb-4 col-md-8 px-0">
+      <ul class="list-group shadow">
+
+        <li class="list-group-item ">
+          <div class="row">
+            <div class="col-sm-6">
+              Profile picture:
+            </div>
+            <div class="col-sm-6">
+              {{ form.profile_picture }}
+              {% if form.profile_picture.errors %}
+              <p style="color: red;">
+                {% for error in form.profile_picture.errors %}
+                {{ error|escape }}<br>
+                {% endfor %}
+              </p>
+            </div>
+          </div>
+        </li>
+        {% elif profile.profile_picture %}
+        <li class="list-group-item text-center">
+          <img src="{{ profile.profile_picture.url }}" class="img-thumbnail bg-transparent"
+            style="height:10rem !important; width=auto;">
+        </li>
+        {% endif %}
+
+        <li class="list-group-item disabled">
+          <div class="row">
+            <div class="col-sm-6">
+              Name:
+            </div>
+            <div class="col-sm-6">
+              {{ profile.name }}
+            </div>
+          </div>
+        </li>
+
+        <li class="list-group-item disabled">
+          <div class="row">
+            <div class="col-sm-6">
+              Roll Number:
+            </div>
+            <div class="col-sm-6">
+              {{ profile.roll_number }}
+            </div>
+          </div>
+        </li>
+
+        <li class="list-group-item disabled">
+          <div class="row">
+            <div class="col-sm-6">
+              Email:
+            </div>
+            <div class="col-sm-6">
+              {{ profile.email }}
+            </div>
+          </div>
+        </li>
+
+      </ul>
+      <div class="text-center">
+        <input type="submit" name="edit_profile" value="Save" class="btn btn-success my-2 ">
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock %}

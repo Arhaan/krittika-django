@@ -1,0 +1,164 @@
+{% extends 'forumBase.html' %}
+
+{% block header %}
+<title>Krittika | Forum | {{post.title}}</title>
+<style>
+  .postBody img,
+  .commentsContainer img {
+    max-width: 100%;
+    height: auto !important;
+  }
+
+  /*For hiding Bootstrap button outlines*/
+  .btn:focus,
+  .btn:active,
+  .form-control:focus,
+  .form-control:active {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+  .commentContent {
+    overflow: auto;
+    overflow-wrap: break-word;
+  }
+
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-3">
+  <div class="">
+    <div class="text-secondary">
+      {% for topic in topics %}
+      <a href="{% url 'forum:detailed_topic' slug=topic.slug %}">
+        <h5 class="lead small badge bg-light card text-secondary">{{topic}}</h5>
+      </a>
+      {% endfor %}
+      <h5 class="lead small badge font-weight-light">
+        <b class="font-weight-bold">&centerdot;</b>
+        Posted by <b class="font-weight-bold">{{post.author.user_profile.name}}</b>
+        on {{post.timestamp}}
+        {% if post.isUpdated %}
+        <b class="font-weight-bold">&centerdot;</b>
+        Updated on {{post.updated}}
+        {% endif %}
+      </h5>
+    </div>
+    <ul class="list-unstyled ml-0 pl-0">
+      <div class="">
+        <li class="d-inline-block">
+          <p class="font-weight-light h3">{{ post.title }}</p>
+        </li>
+        {% if post.author == user or user.user_profile.is_moderator %}
+        <li class="d-inline-block">
+          <a class="h6 ml-2 mr-2" href="{% url 'forum:edit_post' slug=post.slug %}"><i
+              class="fas fa-edit text-secondary"></i></a>
+        </li>
+        <li class="d-inline-block">
+          <a class="h6 ml-2 mr-2" href="{% url 'forum:delete_post' slug=post.slug %}"
+            onclick="return confirm('Are you sure you want to delete this?')">
+            <i class="fas fa-trash-alt text-danger"></i>
+          </a>
+        </li>
+        {% endif %}
+      </div>
+    </ul>
+    <hr>
+  </div>
+
+  <div>
+    {% if post.thumbnail %}
+    <img src="{{post.thumbnail.url}}" class="img-fluid">
+    {% endif %}
+
+    <div class="container-fluid card my-3 postBody">
+      <p>{{ post.body|safe }}</p>
+    </div>
+  </div>
+
+  <hr>
+
+  {% if user.is_authenticated %}
+  <p class="text-secondary small mt-5 mb-1">Comment as <b>{{user.user_profile.name}}</b></p>
+  <p class="text-secondary small"><a href="https://www.markdownguide.org/" target="_blank"><b>Markdown</b></a> is
+    supported</p>
+  <!--Handling comments-->
+  <form method="POST" action="{% url 'forum:detailed_post' slug=post.slug %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="mb-4">
+      {{ form.content }}
+      <button class="btn btn-primary btn-sm mt-1" type="submit">Comment <i class="fas fa-comment-alt"></i></button>
+      <span class="mt-1">{{ form.comment_image }}</span>
+    </div>
+  </form>
+  {% else %}
+  <p class="text-secondary small mt-5"><b>Login</b> to comment</p>
+  {% endif %}
+
+  {% load mptt_tags %}
+  <div class="container commentsContainer">
+    {% recursetree comments %}
+    <div class="border-left pl-2 commentBorder">
+
+      <div class="mb-3">
+        {% if not node.is_deleted %}
+        <div class="small text-secondary">
+          {% if node.user.user_profile.is_admin %}
+          <b class="badge bg-success text-light">admin</b>
+          {% elif node.user.user_profile.is_moderator %}
+          <b class="badge bg-primary text-light">mod</b>
+          {% endif %}
+          <b class="font-weight-bold">{{node.user.user_profile.name}}</b>
+          <b class="font-weight-bold">&centerdot;</b>
+          {{ node.timestamp }}
+          <b class="font-weight-bold">&centerdot;</b>
+          {% if user == node.user or user.user_profile.is_moderator %}
+          <a href="{% url 'forum:delete_comment' slug=post.slug id=node.pk %}" class="text-danger"
+            onclick="return confirm('Are you sure you want to delete this comment?')">Delete</a>
+          {% endif %}
+          <br>
+          {% if node.comment_image %}
+          <div>
+            <img src="{{node.comment_image.url}}" class="img-fluid">
+          </div>
+          {% endif %}
+        </div>
+        {% endif %}
+        <div class="mb-0 pb-0 commentContent">
+          {{ node.content|safe|linebreaks }}
+        </div>
+
+        {% if user.is_authenticated %}
+        <!--Reply form:-->
+        <button class="btn text-secondary btn-sm pl-0 pt-0 mt-0" type="button" data-toggle="collapse"
+          data-target="#replyForm{{node.id}}" aria-expanded="false" aria-controls="#replyForm{{node.id}}">
+          Reply <i class="fas fa-reply"></i>
+        </button>
+
+        <div id="replyForm{{node.id}}" class="collapse mb-2 mt-1">
+          <form method="POST" action="{% url 'forum:detailed_post' slug=post.slug %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.content }}
+            <!--Hidden input responsible for deciding parent comment-->
+            <input type="hidden" name="comment_id" value="{{ node.id }}">
+            <div class="mt-1">
+              <button class="btn btn-sm btn-primary" type="submit">Submit reply</button>
+              {{ form.comment_image }}
+            </div>
+          </form>
+        </div>
+        {% endif %}
+      </div>
+
+      {% if not node.is_leaf_node %}
+      <div class="ml-md-5 ml-sm-3 ml-2">
+        {{ children }}
+      </div>
+      {% endif %}
+    </div>
+    {% endrecursetree %}
+  </div>
+</div>
+<br><br>
+{% endblock %}

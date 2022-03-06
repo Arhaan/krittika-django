@@ -1,0 +1,72 @@
+{% load time_remaining %} <!--Custom Filter-->
+<div class="container-fluid mt-2">
+  <div class="row">
+    <div class="col-12 col-md-7">
+      <div class="list group">
+        <div class="text-center h3 font-weight-light my-2">
+          <i class="fas fa-thumbtack fa-xs"></i> Major Event(s)
+        </div>
+        {% for event in pinned_events %}
+        <div class="card my-3 bg-card">
+          <div class="card-header text-center pb-1 bg-light">
+            <a class="text-secondary h5" href="{% url 'events:detailed_event' slug=event.slug %}">
+              {{event.title}} {{event|time_remaining}}<br>
+            </a>
+            {% if event.subtitle %}
+              <span class="lead small">{{event.subtitle}}</span> <br>
+            {% endif %}
+          </div>
+          {% if event.thumbnail %}
+            <img class="img-fluid" src="{{event.thumbnail.url}}" alt="Event thumbnail">
+          {% endif %}
+
+          <div class="text-secondary p-md-3 p-2">
+            <div class="row">
+              <div class="col-md-4 text-center">Starts on: {{event.startTime}}</div>
+              {% if event.endTime %}
+              <div class="col-md-4 text-center">Ends on: {{event.endTime}}</div>
+              {% endif %}
+              {% if event.venue %}
+                <div class="col-md-4 text-center">Venue: {{event.venue}}</div>
+              {% else %}
+                <div class="col-md-4 text-center">Online event</div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="col-12 col-md-5">
+      {% if upcoming_events %}
+        <div class="row">
+          <div class="col">
+            <div class="text-center h3 font-weight-light my-2">
+              Upcoming Events
+            </div>
+            <div class="list group">
+              {% for event in upcoming_events %}
+              <div class="card my-3 bg-card">
+                <div class="card-header text-center pb-1 bg-light">
+                  <a class="text-secondary h5" href="{% url 'events:detailed_event' slug=event.slug %}">
+                    {{event.title}} {{event|time_remaining}}<br>
+                  </a>
+                  {% if event.subtitle %}
+                    <span class="lead small">{{event.subtitle}}</span> <br>
+                  {% endif %}
+                </div>
+                <div class="text-secondary p-md-3 p-2">
+                  <div class="row row-cols-md-2 row-cols-1 justify-content-center">
+                    <div class="col text-md-left text-center">Starts on: {{event.startTime}}</div>
+                    <div class="col text-md-right text-center">{% if event.endTime %}Ends on: {{event.endTime}}{% endif %}</div>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>

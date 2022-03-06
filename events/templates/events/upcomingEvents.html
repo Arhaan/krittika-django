@@ -1,0 +1,96 @@
+{% extends 'eventsBase.html' %}
+
+{% block header %}
+<title>Krittika | Upcoming Events</title>
+<style>
+  #page-content div {
+    overflow: hidden;
+  }
+
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid mb-2">
+  <div class="row row-cols-sm-2 justify-content-center bg-light p-4">
+    <div class="col-sm-6">
+      <p class="h3 font-weight-light text-sm-left text-center">Upcoming events</p>
+    </div>
+    <div class="col-sm-6">
+      <form method="GET" class="form row justify-content-end">
+        <div class="input-group col-md-6">
+          <input class="form-control" type="search" placeholder="Search" name="q" aria-label="Search">
+          <div class="input-group-append">
+            <button class="btn text-secondary input-group-text" type="submit"><i class="fas fa-search"></i></button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="text-center mt-3 mb-2">
+  <a class="btn btn-outline-secondary shadow" href="{% url 'events:past_events' %}">Past Events</a>
+  <a class="btn btn-outline-secondary shadow" href="{% url 'events:upcoming_events' %}">Upcoming Events</a>
+</div>
+
+{% load time_remaining %}
+<!--Custom Filter-->
+<div class="container">
+  <div class="row row-cols-sm-1 row-cols-md-1 row-cols-lg-2 row-cols-xl-2 justify-content-center">
+    {% for event in page_obj %}
+    <div class="col-md-4 p-2">
+      <div class="card shadow m-2 bg-light">
+        <div class="card-header text-center pb-1">
+          <a class="text-secondary h5" href="{% url 'events:detailed_event' slug=event.slug %}">
+            {{event.title}} {{event|time_remaining}}<br>
+          </a>
+          {% if event.subtitle %}
+          <span class="lead small">{{event.subtitle}}</span> <br>
+          {% endif %}
+        </div>
+        {% if event.thumbnail %}
+        <img class="img-fluid" src="{{event.thumbnail.url}}" alt="Event thumbnail">
+        {% endif %}
+        <div class="text-secondary card-footer">
+          {% if event.startTime %}
+          <span class="">Starts on: {{event.startTime}}</span> <br>
+          {% endif %}
+          {% if event.endTime %}
+          <span class="">Ends on: {{event.endTime}}</span> <br>
+          {% endif %}
+          {% if event.venue %}
+          <span class="">Venue: {{event.venue}}</span> <br>
+          {% else %}
+          <span class="">Online event</span>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="text-center mb-4 mt-4">
+    <span class="step-links">
+      {% if page_obj.has_previous %}
+      <a href="?page=1{%if request.GET.q %}&q={{request.GET.q}}{% endif %}"><i
+          class="fas fa-angle-double-left text-secondary"></i></a>
+      <a href="?page={{ page_obj.previous_page_number }}{%if request.GET.q %}&q={{request.GET.q}}{% endif %}"><i
+          class="fas fa-angle-left text-secondary"></i></a>
+      <!--TO ENSURE PAGINATOR REMAINS CORRECT-->
+      {% endif %}
+
+      <span class="current">
+        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+      </span>
+
+      {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}{%if request.GET.q %}&q={{request.GET.q}}{% endif %}"><i
+          class="fas fa-angle-right text-secondary"></i></a>
+      <a href="?page={{ page_obj.paginator.num_pages }}{%if request.GET.q %}&q={{request.GET.q}}{% endif %}"><i
+          class="fas fa-angle-double-right text-secondary"></i></a>
+      {% endif %}
+    </span>
+  </div>
+</div>
+{% endblock %}

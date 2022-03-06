@@ -1,0 +1,79 @@
+{% extends "mainBase.html" %}
+{% load static %}
+
+{% block header %}
+<title>Krittika | {{ user }} {{ super }} | Profile</title>
+{% endblock %}
+
+{% block content %}
+<div class="container text-center mt-4">
+  <div class="">
+    <div class="h1 font-weight-light">Profile</div>
+    <a class="btn btn-outline-secondary btn-sm shadow" href="{% url 'users:edit_profile' %}">Edit Profile <i
+        class="fas fa-user-edit"></i></a>
+    {% if user.user_profile.is_admin or user.user_profile.is_moderator %}
+    <a class="btn btn-outline-secondary btn-sm shadow" href="{% url 'users:admin_interface' %}">Admin Interface <i
+        class="fas fa-users-cog"></i></a>
+    {% endif %}
+    {% if user.user_profile.is_admin %}
+    <a class="btn btn-outline-secondary btn-sm shadow mt-sm-0 mt-2" href="{% url 'users:admin_only' %}">Manage
+      Moderators <i class="fas fa-user-cog"></i></a>
+    {% endif %}
+  </div>
+</div>
+
+<div class="container mt-4">
+
+  {% include 'users/userDetails.html' %}
+
+  <div class="card shadow rounded-lg my-4 bg-transparent">
+
+    <div class="text-center h3 font-weight-light card-header bg-light">Your blog posts:</div>
+
+    <div class="container bg-transparent">
+      {% if allPosts %}
+      <div class="row row-cols-md-3 row-cols-1">
+        {% for post in allPosts %}
+        <div class="col text-md-center my-3 mx-md-0 mx-3 h6 font-weight-normal">
+          <a class="text-secondary" href="{% url 'blog:detailed_post' slug=post.slug %}">
+            {{post.title}}
+          </a>
+          <span class="small"> ({{post.date.date}}) </span>
+          {% if not post.is_approved %}
+          <b class="badge card shadow-sm text-danger border-danger small font-weight-light bg-transparent">Not approved
+            yet</b>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="text-center font-italic my-3">No blog posts yet</div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="card shadow rounded-lg my-3 bg-transparent">
+
+    <div class="text-center h3 font-weight-light card-header bg-light">Your forum posts:</div>
+
+    <div class="container">
+      {% if allForum %}
+      <div class="row row-cols-md-3 row-cols-1">
+        {% for post in allForum %}
+        <div class="col text-md-center my-3 mx-md-0 mx-3 h6 font-weight-normal">
+          <a class="text-secondary" href="{% url 'forum:detailed_post' slug=post.slug %}">
+            {{post.title}}
+          </a>
+          <span class="small"> ({{post.timestamp.date}}) </span>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="text-center font-italic my-3">No forum posts yet</div>
+      {% endif %}
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}

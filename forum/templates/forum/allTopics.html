@@ -1,0 +1,79 @@
+{% extends "forumBase.html" %}
+
+{% block header %}
+<title>Krittika | Forum | Topics</title>
+<style>
+  .card img {
+    max-width: 100%;
+    height: auto !important;
+  }
+
+  .card p {
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid mb-2">
+  <div class="row row-cols-sm-2 justify-content-center bg-light p-4">
+    <div class="col-sm-6">
+      <p class="h3 font-weight-light">All topics</p>
+    </div>
+    <div class="col-sm-6">
+      <form method="GET" class="form row justify-content-end">
+        <div class="input-group col-md-6">
+          <input class="form-control shadow" type="search" placeholder="Search topics" name="q" aria-label="Search">
+          <div class="input-group-append shadow">
+            <button class="btn text-secondary input-group-text" type="submit"><i class="fas fa-search"></i></button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <ul class="list-group">
+    <li class="list-group-item py-2 bg-light text-center h5 text-secondary">
+      Topics
+    </li>
+    {% for topic in page_obj %}
+    <li class="list-group-item pb-2 pt-2">
+      <a class="text-secondary" href="{% url 'forum:detailed_topic' slug=topic.slug %}">
+        {{topic.name}}
+      </a>
+      <div class="small">
+        {{topic.snippet|safe}}
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
+
+  <div class="text-center my-3">
+    <span class="step-links">
+      {% if page_obj.has_previous %}
+      <a href="?page=1{%if request.GET.q %}&q={{request.GET.q}}{% endif %}"><i
+          class="fas fa-angle-double-left text-secondary"></i></a>
+      <a href="?page={{ page_obj.previous_page_number }}{%if request.GET.q %}&q={{request.GET.q}}{% endif %}"><i
+          class="fas fa-angle-left text-secondary"></i></a>
+      <!--TO ENSURE PAGINATOR REMAINS CORRECT-->
+      {% endif %}
+
+      <span class="current">
+        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+      </span>
+
+      {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}{%if request.GET.q %}&q={{request.GET.q}}{% endif %}"><i
+          class="fas fa-angle-right text-secondary"></i></a>
+      <a href="?page={{ page_obj.paginator.num_pages }}{%if request.GET.q %}&q={{request.GET.q}}{% endif %}"><i
+          class="fas fa-angle-double-right text-secondary"></i></a>
+      {% endif %}
+    </span>
+  </div>
+</div>
+
+{% endblock %}

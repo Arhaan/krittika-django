@@ -1,0 +1,6 @@
+Email_Host_User = 'krittika.club@iitb.ac.in'
+Email_Host_Password = 'Pleiades45!'
+
+Google_reCaptcha_Secret_Key = '6LdpEakZAAAAAA3vH62q2meDkCzf9tioKfGzAY7q'
+
+SSO_Client_ID_Secret_Base64 = 'Y29iTG5aTE1US01MeW5MSTVBenByTUVuYVhheWZUQnAydTRkRGpwUDpXb21KamVQOXF6eGp0dnFDa21qREJkUDFQdVVPd0hLckZEV1RKYWVLTW12bWlTWWZNQTFmMnJtZlBGNFNjNWFxdmg4NGtJT2hmRERoQXNvNmtBYlI4UVRaQlBVMW5FcmVJaUVBbU5vaHR6SVAycGZDMEk1TnBuenhMZ1dlZnBxUg=='

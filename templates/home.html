@@ -1,0 +1,16 @@
+{% extends 'mainBase.html' %}
+{% load static %}
+
+{% block header %}
+<title>Krittika | Home</title>
+<link rel="stylesheet" href="{% static 'css/carousel.css' %}">
+<link rel="stylesheet" href="{% static 'css/owlcarousel/owl.carousel.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/owlcarousel/owl.theme.default.min.css' %}">
+<script src="{% static 'js/owlcarousel/owl.carousel.min.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+{% include 'includes/carousel.html' %}
+{% include 'includes/events.html' %}
+{% include 'includes/apod.html' %}
+{% endblock %}

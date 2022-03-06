@@ -1,0 +1,76 @@
+{% extends 'mainBase.html' %}
+{% load static %}
+
+{% block header %}
+<title>Krittika | Admin Interface</title>
+{% endblock %}
+
+{% block content %}
+<div class="container text-center mt-4">
+  <div class="">
+    <div class="h1 font-weight-light">Admin Interface</div>
+    <a class="btn btn-outline-secondary btn-sm shadow mt-sm-0 mt-2" href="{% url 'users:profile' %}">User Interface <i
+        class="fas fa-user"></i></a>
+    {% if user.user_profile.is_admin %}
+    <a class="btn btn-outline-secondary btn-sm shadow mt-sm-0 mt-2" href="{% url 'users:admin_only' %}">Manage
+      Moderators <i class="fas fa-user-cog"></i></a>
+    {% endif %}
+  </div>
+</div>
+
+<div class="container mt-4">
+  <div class="row row-cols-md-2 justify-content-center m-md-4 mt-4 mb-5">
+
+    <div class="col-md-6 mb-3">
+      <div class="container px-0">
+        <ul class="list-group shadow">
+          <li class="list-group-item bg-light h4 font-weight-light text-center">
+            Blog posts waiting for approval:
+          </li>
+          {% if allPosts %}
+          {% for post in allPosts %}
+          <li class="list-group-item">
+            <a class="text-secondary" href="{% url 'blog:detailed_post' slug=post.slug %}">
+              {{post.title}} <b class="font-weight-bold">&centerdot;</b>
+            </a>
+            <b class="text-secondary font-weight-light badge border border-secondary bg-transparent">By:
+              {{post.author.user_profile.name}}</b>
+          </li>
+          {% endfor %}
+          {% else %}
+          <li class="list-group-item text-center font-italic">
+            No blog posts yet
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="container px-0">
+        <ul class="list-group shadow">
+          <li class="list-group-item bg-light h4 font-weight-light text-center">
+            Suggested forum topics:
+          </li>
+          {% if allTopics %}
+          {% for topic in allTopics %}
+          <li class="list-group-item">
+            <a class="text-secondary" href="{% url 'forum:detailed_topic' slug=topic.slug %}">
+              {{topic.name}} <b class="font-weight-bold">&centerdot;</b>
+            </a>
+            <b class="text-secondary font-weight-light badge border border-secondary bg-transparent">Suggested by:
+              {{topic.author.user_profile.name}}</b>
+          </li>
+          {% endfor %}
+          {% else %}
+          <li class="list-group-item text-center font-italic">
+            No blog posts yet
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

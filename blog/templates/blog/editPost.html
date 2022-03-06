@@ -1,0 +1,63 @@
+{% extends 'blogBase.html' %}
+
+{% block header %}
+<title>Krittika | Blog | Edit Post</title>
+{% endblock %}
+
+{% block ckeditorBlock %}
+{{form.media}}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <div class="text-center font-weight-light h1">Edit post</div>
+
+  <div class="row justify-content-center px-3 mb-3">
+    <div class="col-md-10 bg-light card p-3">
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <p class="mt-3 h5 lead">Heading: &ensp;{{form.title}}</p>
+        <p class="mt-3 h5 lead">Subheading: &ensp; {{form.subtitle}}</p>
+        <p class="mt-3 h5 lead">Multiple authors (optional): &ensp; {{form.multiple_authors}}</p>
+        <p class="mt-3 h5 lead">
+          Content: ( Please use the full-screen mode : <i class="fas fa-expand-arrows-alt"></i> )
+          (<em class="small">MathJax is supported </em>)
+        </p>
+        <div class="text-center m-3">
+          {{form.body_new}}
+        </div>
+        <div class="d-none">
+          {{form.body}}
+        </div>
+        <p class="mt-3 pb-3 h5 lead">Thumbnail: &ensp;{{form.thumbnail}}</p>
+
+        <!--ADMIN-INTERFACE-->
+        {% if user.user_profile.is_moderator %}
+        <p class="mt-3 h5 lead">Tags: &ensp;{{form.tags}}</p>
+        <p class="pt-3 h5 lead"> Approve this post? {{form.is_approved}}</p>
+        {% else %}
+
+        <!--DISPLAYING TAGS-->
+        {% if tags %}
+        <div class="lead">
+          Tags:
+          {% for tag in tags %}
+          <p class="badge bg-light p-2 text-secondary card">{{tag}}</p>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        <!--Without this, the is_approved and the tags field is overridden-->
+        <p class="d-none">{{form.tags}}</p>
+        <p class="d-none">{{form.is_approved}}</p>
+        {% endif %}
+
+        <div class="text-center">
+          <button class="btn btn-success my-2 my-sm-0" type="submit">Save <i class="fas fa-check-circle"></i></button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

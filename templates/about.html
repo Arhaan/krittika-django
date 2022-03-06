@@ -1,0 +1,47 @@
+{% extends 'mainBase.html' %}
+{% load static %}
+
+{% block header %}
+<title>Krittika | About</title>
+{% endblock %}
+
+{% block content %}
+<div class="text-center mt-5">
+  <a class="btn btn-outline-secondary shadow active">About Us</a>
+  <a class="btn btn-outline-secondary shadow" href="{% url 'team' %}">Our Team</a>
+  <a class="btn btn-outline-secondary shadow" href="{% url 'contact' %}">Contact Us</a>
+</div>
+
+<div>
+  <div class="p-3" id="about">
+    <div class="container card my-md-4 my-3 p-3 pl-4 shadow-lg aboutCard">
+      <h1 class="display-4 text-center">About</h1>
+      <p>Everyone of us is amazed by the spectacle of the night sky and feels curious about its mysteries that lay
+        hidden in plain sight.</p>
+      <p>But very few follow it up as they grow up. At Krittika, we provide you an opportunity to just that!</p>
+      <p>Krittika is IIT Bombay’s focal point for amateur astronomers and casual stargazers alike.</p>
+      <p>The club has bi-weekly lectures and discussion sessions on various topics in Astronomy.
+        Whenever the skies are clear observation sessions are conducted.
+        <p>Krittika boasts of a few telescopes, which are used during the astronomical events like
+          Eclipses,Occultations etc.</p>
+        <p>A lot of discussions happen on the Krittika Google Group which is an active platform for Astro-enthusiasts
+          to learn and enjoy Astronomy.</p>
+        <p>Also, every semester the club conducts trips to Observational sites, Planetarium which are amazing
+          experiences!</p>
+        <h3> Crypt hunt Question </h3>
+        <p>
+            Extend the belt of the warrior, <br>
+            Along the neck of charioteer, <br>
+            If you thank Pythagoras and properly stare, <br>
+            You'll find us there! <br>
+            Where are we? <br>
+
+            (Hint : The answer has 8 characters)
+        </p>
+         <p class="mt-2"><a href="{% url 'faqs' %}">Frequently Asked Questions</a></p>
+        <p><a href="{% url 'code_of_conduct' %}">Code of Conduct</a></p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

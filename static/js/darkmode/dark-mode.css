@@ -1,0 +1,164 @@
+[data-theme="dark"] .list-group-item {
+  background-color: #000 !important;
+  color: #ddd;
+}
+
+[data-theme="dark"] {
+  background-color: #131313 !important;
+  color: #eee !important;
+}
+
+[data-theme="dark"] .bg-light {
+  background-color: #333 !important;
+}
+
+[data-theme="dark"] .text-dark {
+  color: #eee !important;
+}
+
+[data-theme="dark"] .bg-white {
+  background-color: #111 !important;
+}
+
+[data-theme="dark"] .bg-black {
+  background-color: #eee !important;
+}
+
+[data-theme="dark"] .bg-card {
+  background-color: #222 !important;
+}
+/*CUSTOM CSS*/
+
+[data-theme="dark"] .card header a {
+  color: #ddd !important;
+}
+
+[data-theme="dark"] .forumPost, [data-theme="dark"] .aboutCard {
+  background-color: #222 !important;
+  color: #ddd !important;
+}
+
+[data-theme="dark"] .contactForm{
+  background-color: #333 !important;
+}
+
+[data-theme="dark"] .blogPost .card-header {
+  background-color: #333 !important;
+  color: #ccc !important;
+}
+[data-theme="dark"] .blogPost {
+  background-color: #111 !important;
+  color: #ddd !important;
+}
+
+[data-theme="dark"] .suggestionText {
+  color: #ddd !important;
+}
+
+[data-theme="dark"] .fb-comments-bg {
+  background-color: #454545 !important;
+}
+
+[data-theme="dark"] .social-icons {
+  background-color: #111 !important;
+}
+
+[data-theme="dark"] .commentBorder {
+  border-color: #333 !important;
+}
+
+[data-theme="dark"] hr {
+  border: 1.5px solid #222 !important;
+}
+
+[data-theme="dark"] .mainFooter, [data-theme="dark"] .copyrightFooter  {
+  background-image: url("../../img/unnamed.png");
+}
+
+[data-theme="dark"] .userBackground {
+  background-image: url("../../img/bg_dark.jpg");
+}
+
+
+
+@media (max-width: 900px){
+  .copyrightFooter{
+    font-size: 0.7rem !important;
+  }
+}
+
+.cinzel{
+  font-family: 'Cinzel', serif !important;
+}
+
+[data-theme="dark"] .form-control, [data-theme="dark"] #id_topic, [data-theme="dark"] #id_tags {
+  border: none !important;
+  outline: none !important;
+  background-color: #222 !important;
+  color: #eee !important;
+}
+
+/* Styling the (new) dark mode toggle */
+.dark-mode-img{
+  width: 25px;
+  height: 25px;
+  cursor:pointer;
+  background: url('../../img/sun.png') !important;
+}
+[data-theme="dark"] .dark-mode-img{
+  background: url('../../img/moon.svg') !important;
+}
+
+/*Designing the toggle button*/
+.darkToggle{
+  color: #ddd !important;
+}
+
+.btn:focus, .btn:active, .form-control:focus, .form-control:active {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.custom-control-input:checked~.custom-control-label::before {
+  border-color: #444 !important;
+  background-color: #444 !important;
+  outline: none !important;
+  box-shadow: none !important;
+
+  display: none !important;
+}
+
+.custom-control-label::before{
+  outline: none !important;
+  box-shadow: none !important;
+
+  display: none !important; /* Hide the entire toggle background */
+}
+
+.custom-switch .custom-control-label::after {
+  background-color: #888 !important;
+
+  display: none !important; /* Hide the toggle button */
+
+  /*background-image: url('../../img/sun.png') !important;*/
+}
+
+
+/* [data-theme="dark"] .topNavBar {
+  background-color: #222 !important;
+  color: #ddd !important;
+} */
+
+/*Common Footer Styles*/
+#social_fb{
+  color: #3b5998;
+}
+#social_insta{
+  color: #C13584;
+}
+#social_github{
+  color: #777;
+}
+#social_mail{
+  color: #1e90ff;
+}

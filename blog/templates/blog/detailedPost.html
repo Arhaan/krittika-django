@@ -1,0 +1,216 @@
+{% extends 'blogBase.html' %}
+
+{% block header %}
+<title>Krittika | Blog | {{post.title}}</title>
+<style>
+  .postBody img {
+    max-width: 100%;
+    height: auto !important;
+  }
+
+  @media (min-width: 768px) {
+    .comment {
+      width: 90% !important;
+    }
+  }
+
+</style>
+{% endblock %}
+
+{% block ckeditorBlock %}
+{{ editForm.media }}
+{{ suggestionsForm.media }}
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+  <div class="">
+    <ul class="list-unstyled row">
+      <div class="col-md-6 text-center text-sm-left">
+        <li class="d-inline-block">
+          <div class="font-weight-light h1">{{ post.title }}</div>
+        </li>
+        {% if post.author == user %}
+        <li class="d-inline-block">
+          <a class="h5 ml-2 mr-2" href="{% url 'blog:edit_post' slug=post.slug %}">
+            <i class="fas fa-edit text-secondary"></i>
+          </a>
+        </li>
+        {% endif %}
+        {% if post.author == user or user.user_profile.is_admin %}
+        <li class="d-inline-block">
+          <a class="h5 ml-2 mr-2" href="{% url 'blog:delete_post' slug=post.slug %}"
+            onclick="return confirm('Are you sure you want to delete this?')">
+            <i class="fas fa-trash-alt text-danger"></i>
+          </a></li>
+        {% endif %}
+        {% if user.user_profile.is_admin and is_edited %}
+        <li class="d-inline-block">
+          <a class="h5 font-weight-light mr-2 text-success" href="{% url 'blog:view_edits' slug=post.slug %}">
+            <!-- Approve edits <i class="fas fa-clipboard-check"></i> -->
+            View Edits <i class="far fa-eye"></i>
+          </a>
+        </li>
+        {% endif %}
+        <li>
+          <div class="font-weight-light h5">{{ post.subtitle }}</div>
+        </li>
+      </div>
+      <!--ADMIN-APPROVAL-CHECKBOX-->
+      <div class="col-md-6 text-center text-md-right p-1">
+        {% if user.user_profile.is_moderator %}
+        <form method="POST" enctype="multipart/form-data" action="{% url 'blog:detailed_post' slug=post.slug %}">
+          {% csrf_token %}
+          <div>
+            <li class="d-inline-block">
+              <h5 class="lead small p-3">Approval status: {{approvalForm.is_approved}}</h5>
+            </li>
+            {% if not post.is_approved %}
+            <li class="d-inline-block">
+              <h5 class="small lead p-2">
+                Check the box first
+                <button type="submit" name="approve_button" class="btn btn-outline-success btn-sm">Approve</button>
+              </h5>
+            </li>
+            {% endif %}
+            {% if post.is_approved %}
+            <li class="d-inline-block">
+              <h5 class="small lead p-2">
+                Uncheck the box first:
+                <button type="submit" name="remove_button" class="btn btn-outline-danger btn-sm">Temporarily
+                  remove</button>
+              </h5>
+            </li>
+            {% endif %}
+          </div>
+        </form>
+      </div>
+      {% endif %}
+    </ul>
+    <hr>
+  </div>
+
+  <div>
+    {% if post.thumbnail %}
+    <img src="{{post.thumbnail.url}}" class="img-fluid">
+    {% endif %}
+
+    <div class="container-fluid card my-3 postBody">
+      <p>{{ post.body|safe }}</p>
+    </div>
+    <hr>
+    <footer class="my-4 text-center text-secondary row justify-content-center">
+      <h5 class="lead small col-sm-4">Published on: {{ post.date }}</h5>
+      {% if post.multiple_authors %}
+      <h5 class="lead small col-sm-4">Contributed by {{post.multiple_authors}}</h5>
+      {% else %}
+      {% if post.author.user_profile.name %}
+      <h5 class="lead small col-sm-4">Contributed by {{post.author.user_profile.name}}</h5>
+      {% else %}
+      <h5 class="lead small col-sm-4">Contributed by {{post.author}}</h5>
+      {% endif %}
+      {% endif %}
+      {% if post.isUpdated %}
+      <h5 class="lead small col-sm-4">Updated on: {{post.updated}}</h5>
+      {% endif %}
+    </footer>
+    <!--DISPLAYING TAGS-->
+    {% if tags %}
+    <div class="h6">
+      Tags:
+      {% for tag in tags %}
+      <p class="badge bg-light p-2 text-secondary card">{{tag}}</p>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+  <hr>
+
+
+  <!--SUGGESTIONS/COMMENTS:-->
+  {% if post.is_approved %}
+  <h4 class="lead text-center ">Comments:</h4>
+  <hr>
+  {% endif %}
+  {% if not post.is_approved %}
+  <h4 class="lead text-center ">Suggestions:</h4>
+  <hr>
+  {% endif %}
+  <div class="container-fluid px-md-3 px-0">
+    {% for suggestion in suggestions %}
+    {% if post.is_approved %}
+    {% if not suggestion.is_suggestion %}
+    {% if edit_mode and suggestion.pk == id %}
+    <div class="container mb-4 px-md-5 px-0">
+      <form method="POST" enctype="multipart/form-data" action="{% url 'blog:edit_comment' id=id %}"
+        class="px-md-1 px-0">
+        {% csrf_token %}
+        <div class="">
+          <div class="">{{editForm.body}}</div>
+          <div class="my-2">
+            <button type="submit" name="edit_suggestion" class="btn btn-success">Save edits</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    {% else %}
+    <div class="card shadow p-2 my-2 aboutCard mx-auto comment">
+      <div class="font-weight-bold">
+        {{suggestion.user}} <b class="small">{{suggestion.timestamp}}</b>
+        <b>&nbsp;</b>
+        {% if request.user == suggestion.user %}
+        <a href="{% url 'blog:edit_comment' id=suggestion.pk %}" class="small text-secondary">Edit</a>
+        {% endif %}
+        {% if request.user == suggestion.user or request.user.user_profile.is_admin %}
+        <a href="{% url 'blog:delete_comment' id=suggestion.pk %}" class="small text-danger"
+          onclick="return confirm('Are you sure you want to delete this comment?')">Delete</a>
+        {% endif %}
+      </div>
+      {{suggestion.body|safe}}
+    </div>
+    {% endif %}
+    {% endif %}
+    {% else %}
+    {% if suggestion.is_suggestion %}
+    <div class="card shadow p-2 my-2 aboutCard mx-auto comment">
+      <div class="font-weight-bold">
+        {{suggestion.user}} <b class="small">{{suggestion.timestamp}}</b>
+        <b>&nbsp;</b>
+        <a href="{% url 'blog:edit_comment' id=suggestion.pk %}" class="small text-secondary">Edit</a>
+        <a href="{% url 'blog:delete_comment' id=suggestion.pk %}" class="small text-danger"
+          onclick="return confirm('Are you sure you want to delete this comment?')">Delete</a>
+      </div>
+      {{suggestion.body|safe}}
+    </div>
+    {% endif %}
+    {% endif %}
+    {% endfor %}
+  </div>
+  <hr>
+  {% if user.is_authenticated %}
+  {% if not edit_mode %}
+  <!--Suggestions form:-->
+  <div class="container mb-4 px-md-5 px-0">
+    <form method="POST" enctype="multipart/form-data" class="px-md-4 px-0">
+      {% csrf_token %}
+      <div class="">
+        {{suggestionsForm.body}}
+      </div>
+      <div class="my-2">
+        <input type="submit" name="make_suggestion" value="Comment" class="btn btn-success">
+      </div>
+    </form>
+  </div>
+  {% endif %}
+  {% endif %}
+
+  <!--FACEBOOK COMMENTS PLUGIN-->
+  <!--div class="container text-center card fb-comments-bg pt-4 pb-4 col-8 mb-5">
+    <div class="fb-comments" data-href="{{request.build_absolute_uri}}" data-numposts="2" data-width=""></div>
+  </div-->
+
+</div>
+
+{% endblock %}

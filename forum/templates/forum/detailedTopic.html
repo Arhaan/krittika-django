@@ -1,0 +1,149 @@
+{% extends 'forumBase.html' %}
+
+{% block header %}
+<title>Krittika | Forum Topic | {{topic.name}} </title>
+<style>
+  .postBody img {
+    max-width: 100%;
+    height: auto !important;
+  }
+
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-3">
+  <div class="">
+    <ul class="list-unstyled ml-0 pl-0">
+      <div class="">
+        <li class="d-inline-block">
+          <p class="font-weight-light h3">{{ topic.name }}</p>
+        </li>
+        {% if user.user_profile.is_moderator %}
+        <li class="d-inline-block">
+          <a class="h6 ml-2 mr-2" href="{% url 'forum:edit_topic' slug=topic.slug %}"><i
+              class="fas fa-edit text-secondary"></i></a>
+        </li>
+        <li class="d-inline-block">
+          <a class="h6 ml-2 mr-2" href="{% url 'forum:delete_topic' slug=topic.slug %}"
+            onclick="return confirm('Are you sure you want to delete this topic? All posts in this topic will be deleted!')">
+            <i class="fas fa-trash-alt text-danger"></i>
+          </a>
+        </li>
+        {% endif %}
+      </div>
+    </ul>
+  </div>
+  <div>
+    <div class="container-fluid card my-3 postBody">
+      <p>{{ topic.description|safe }}</p>
+    </div>
+  </div>
+  <div class="">
+    {% if user.user_profile.is_moderator %}
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div>
+        <li class="d-inline-block">
+          <h5 class="lead small">Approval status: {{form.is_approved}}</h5>
+        </li>
+        {% if not topic.is_approved %}
+        <li class="d-inline-block">
+          <h5 class="small lead">
+            Check the box first
+            <button type="submit" name="approve_button" class="btn btn-outline-success btn-sm">Approve</button>
+          </h5>
+        </li>
+        {% endif %}
+        {% if topic.is_approved %}
+        <li class="d-inline-block">
+          <h5 class="small lead">
+            Uncheck the box first:
+            <button type="submit" name="remove_button" class="btn btn-outline-danger btn-sm">Temporarily remove</button>
+          </h5>
+        </li>
+        {% endif %}
+      </div>
+      <div>
+        <li class="d-inline-block">
+          <h5 class="lead small">Archival status: {{form.is_archived}}</h5>
+        </li>
+        {% if not topic.is_archived %}
+        <li class="d-inline-block">
+          <h5 class="small lead">
+            Check the box first
+            <button type="submit" name="archive_button" class="btn btn-outline-success btn-sm">Archive</button>
+          </h5>
+        </li>
+        {% endif %}
+        {% if topic.is_archived %}
+        <li class="d-inline-block">
+          <h5 class="small lead">
+            Uncheck the box first:
+            <button type="submit" name="unarchive_button" class="btn btn-outline-danger btn-sm">Un-archive</button>
+          </h5>
+        </li>
+        {% endif %}
+      </div>
+    </form>
+    {% endif %}
+  </div>
+  <hr>
+  <p class="text-center text-secondary">Posts in this topic:</p>
+</div>
+
+<!--Displaying all the posts related to the topic-->
+<div class="container-fluid">
+  <div class="row row-cols-1 justify-content-center">
+    {% for post in page_obj %}
+    <div class="col-md-8">
+      <div class="card p-2 my-2 shadow forumPost">
+        <a class="text-secondary mr-2 h5" href="{% url 'forum:detailed_post' slug=post.slug %}">
+          &nbsp;{{post.title}}
+          <!--A blank space is added to match the topic's padding to the title's padding-->
+        </a>
+        <div class="text-secondary row container">
+
+          {% for topic in post.topic.all %}
+          &nbsp;
+          <a href="{% url 'forum:detailed_topic' slug=topic.slug %}">
+            <h5 class="lead small badge bg-light card text-secondary">{{topic}}</h5>
+          </a>
+          {% endfor %}
+
+          <h5 class="lead small badge font-weight-light mt-1">
+            <b class="font-weight-bold">&centerdot;</b>
+            Posted by <b class="font-weight-bold">{{post.author.user_profile.name}}</b>
+            on {{post.timestamp}}
+          </h5>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+
+    <div class="text-center mt-4 mb-4">
+      <span class="step-links">
+        {% if page_obj.has_previous %}
+        <a href="?page=1{%if request.GET.q %}&q={{request.GET.q}}{% endif %}"><i
+            class="fas fa-angle-double-left text-secondary"></i></a>
+        <a href="?page={{ page_obj.previous_page_number }}{%if request.GET.q %}&q={{request.GET.q}}{% endif %}"><i
+            class="fas fa-angle-left text-secondary"></i></a>
+        <!--TO ENSURE PAGINATOR REMAINS CORRECT-->
+        {% endif %}
+
+        <span class="current">
+          Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}{%if request.GET.q %}&q={{request.GET.q}}{% endif %}"><i
+            class="fas fa-angle-right text-secondary"></i></a>
+        <a href="?page={{ page_obj.paginator.num_pages }}{%if request.GET.q %}&q={{request.GET.q}}{% endif %}"><i
+            class="fas fa-angle-double-right text-secondary"></i></a>
+        {% endif %}
+      </span>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

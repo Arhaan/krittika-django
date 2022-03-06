@@ -1,0 +1,42 @@
+{% extends 'eventsBase.html' %}
+
+{% block header %}
+<title>Krittika | Edit Event</title>
+{% endblock %}
+
+{% block ckeditorBlock %}
+{{form.media}}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="text-center font-weight-light h1">Edit event</div>
+  <div class="row justify-content-center px-3 mb-3">
+    <div class="col-md-10 bg-light card p-3">
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <p class="pt-3 h5 lead">Heading: &ensp;{{form.title}}</p>
+        <p class="pt-3 h5 lead">Sub-heading: &ensp;{{form.subtitle}}</p>
+        <p class="pt-3 h5 lead">Starts on: <b class="small font-weight-light">(DD/MM/YYYY hh:mm)</b>
+          &ensp;{{form.startTime}}</p>
+        <p class="pt-3 h5 lead">Ends on: <b class="small font-weight-light">(DD/MM/YYYY hh:mm)</b>
+          &ensp;{{form.endTime}}</p>
+        <p class="pt-3 h5 lead">Venue: &ensp;{{form.venue}}</p>
+        <p class="pt-3 h5 lead">
+          Content:
+          <!-- ( Please use the full-screen mode : <i class="fas fa-expand-arrows-alt"></i> ) -->
+          (<em class="small">MathJax is supported </em>)
+        </p>
+        <div class="text-center m-3">
+          {{form.body}}
+        </div>
+        <p class="pt-3 pb-3 h5 lead">Poster: &ensp;{{form.thumbnail}}</p>
+        <p class="h5 lead"> Pin this event? &ensp;{{form.is_pinned}}</p>
+        <div class="text-center">
+          <button class="btn btn-success my-2 my-sm-0" type="submit">Save <i class="fas fa-check-circle"></i></button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

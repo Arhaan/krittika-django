@@ -1,0 +1,20 @@
+.carousel-img{
+  height: 100vh;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Tinted background images */
+.slide-1{
+  background-image: linear-gradient(rgba(0, 0, 0, 0.6),rgba(0, 0, 0, 0.6)), url('https://images.pexels.com/photos/220201/pexels-photo-220201.jpeg');
+}
+
+.slide-2{
+  background-image: linear-gradient(rgba(0, 0, 0, 0.6),rgba(0, 0, 0, 0.6)), url('https://images.pexels.com/photos/1229042/pexels-photo-1229042.jpeg');
+}
+
+.slide-3{
+  background-image: linear-gradient(rgba(0, 0, 0, 0.6),rgba(0, 0, 0, 0.6)), url('https://images.pexels.com/photos/2832084/pexels-photo-2832084.jpeg');
+}

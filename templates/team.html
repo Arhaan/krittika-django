@@ -1,0 +1,50 @@
+{% extends 'mainBase.html' %}
+{% load static %}
+
+{% block header %}
+<title>Krittika | About</title>
+{% endblock %}
+
+{% block content %}
+<div class="text-center mt-5 mb-2">
+  <a class="btn btn-outline-secondary shadow" href="{% url 'about' %}">About Us</a>
+  <a class="btn btn-outline-secondary shadow active">Our Team</a>
+  <a class="btn btn-outline-secondary shadow" href="{% url 'contact' %}">Contact Us</a>
+</div>
+
+<div class="mt-4">
+  <ul class="nav nav-pills justify-content-center pillsColor" id="myTab" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link text-secondary" id="team-2019-tab" data-toggle="tab" href="#team-2019" role="tab"
+        aria-controls="team-2019" aria-selected="false">
+        Team 2019
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link active text-secondary" id="team-2020-tab" data-toggle="tab" href="#team-2020" role="tab"
+        aria-controls="team-2020" aria-selected="true">
+        Team 2020 (Current)
+      </a>
+    </li>
+  </ul>
+
+  <div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade p-3" id="team-2019" role="tabpanel" aria-labelledby="team-2019-tab">
+      <div class="card shadow-lg container mt-4 mb-5 aboutCard">
+        <p class="display-4 pt-4 pb-4 text-center">Team 2019</p>
+        {% include 'teamDetails/2019/managerAndSecy.html' %}
+        {% include 'teamDetails/2019/convenerDetails.html' %}
+      </div>
+    </div>
+
+    <div class="tab-pane show active fade p-3" id="team-2020" role="tabpanel" aria-labelledby="team-2020-tab">
+      <div class="card shadow-lg container mt-4 mb-5 aboutCard">
+        <p class="display-4 pt-4 pb-4 text-center">Team 2020</p>
+        {% include 'teamDetails/2020/managerAndSecy.html' %}
+        {% include 'teamDetails/2020/convenerDetails.html' %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
