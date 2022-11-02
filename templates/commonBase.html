@@ -71,9 +71,9 @@
           <img src="{% static 'img/logo_gif.gif' %}" alt="logo_gif" class="rounded-lg" height="50px">
         </a>
 
-        <div class="navbar-brand mx-auto pb-0">
-          <span class="font-weight-light h3 mx-md-4 mx-0">Krittika</span>
-        </div>
+        <a class="navbar-brand mx-md-4 font-weight-light" href="{% url 'home' %}"> <h3>Krittika</h3>
+          <!-- <a class="font-weight-light h3 mx-md-4 mx-0" href="{% url 'home' %}">Krittika</a> -->
+        </a>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
           aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">

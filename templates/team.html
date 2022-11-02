@@ -16,9 +16,21 @@
       </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link active text-secondary" id="team-2020-tab" data-toggle="tab" href="#team-2020" role="tab"
-        aria-controls="team-2020" aria-selected="true">
-        Team 2020 (Current)
+      <a class="nav-link text-secondary" id="team-2020-tab" data-toggle="tab" href="#team-2020" role="tab"
+        aria-controls="team-2020" aria-selected="false">
+        Team 2020
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link text-secondary" id="team-2021-tab" data-toggle="tab" href="#team-2021" role="tab"
+        aria-controls="team-2021" aria-selected="false">
+        Team 2021
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link active text-secondary" id="team-2022-tab" data-toggle="tab" href="#team-2022" role="tab"
+        aria-controls="team-2022" aria-selected="false">
+        Team 2022 
       </a>
     </li>
   </ul>
@@ -31,12 +43,25 @@
         {% include 'teamDetails/2019/convenerDetails.html' %}
       </div>
     </div>
-
-    <div class="tab-pane show active fade p-3" id="team-2020" role="tabpanel" aria-labelledby="team-2020-tab">
+    <div class="tab-pane fade p-3" id="team-2020" role="tabpanel" aria-labelledby="team-2020-tab">
       <div class="card shadow-lg container mt-4 mb-5 aboutCard">
         <p class="display-4 pt-4 pb-4 text-center">Team 2020</p>
         {% include 'teamDetails/2020/managerAndSecy.html' %}
         {% include 'teamDetails/2020/convenerDetails.html' %}
+      </div>
+    </div>    
+    <div class="tab-pane fade p-3" id="team-2021" role="tabpanel" aria-labelledby="team-2021-tab">
+      <div class="card shadow-lg container mt-4 mb-5 aboutCard">
+        <p class="display-4 pt-4 pb-4 text-center">Team 2021</p>
+        {% include 'teamDetails/2021/managerAndSecy.html' %}
+        {% include 'teamDetails/2021/convenerDetails.html' %}
+      </div>
+    </div> 
+    <div class="tab-pane show active fade p-3" id="team-2022" role="tabpanel" aria-labelledby="team-2022-tab">
+      <div class="card shadow-lg container mt-4 mb-5 aboutCard">
+        <p class="display-4 pt-4 pb-4 text-center">Team 2022</p>
+        {% include 'teamDetails/2022/managerAndSecy.html' %}
+        {% include 'teamDetails/2022/convenerDetails.html' %}
       </div>
     </div>
   </div>
