@@ -29,7 +29,7 @@ SECRET_KEY = "sadfa2q12341rqef3rq@@#@1341qrq4r231r434"
 DEBUG = True
 DEBUG_PROPAGATE_EXCEPTIONS = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'krittika-iitb.herokuapp.com','itc.gymkhana.iitb.ac.in']
+ALLOWED_HOSTS = ['127.0.0.1', 'krittika-iitb.herokuapp.com','itc.gymkhana.iitb.ac.in', 'krittika.herokuapp.com']
 
 # Application definition
 AUTHENTICATION_BACKENDS = [
@@ -214,7 +214,7 @@ admin_list = [
     '190020082',  # Unnatee
     '190260028',  # Manan
     '200020012',  # Adish
-    '210050016',
+    '210050016',  # Arhaan
 ]
 
 ###################################
