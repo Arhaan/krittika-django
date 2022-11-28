@@ -13,17 +13,17 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('', home_view, name='home'),
-    path('about/', about_view, name='about'),
+    # path('about/', about_view, name='about'),
     path('about/team/', team_view, name='team'),
-    path('about/contact-us/', contact_view, name='contact'),
-    path('faqs/', faqs_view, name='faqs'),
-    path('code-of-conduct/', code_of_conduct, name='code_of_conduct'),
+    # path('about/contact-us/', contact_view, name='contact'),
+    # path('faqs/', faqs_view, name='faqs'),
+    # path('code-of-conduct/', code_of_conduct, name='code_of_conduct'),
 
     # Our Apps:
-    path('blog/', include('blog.urls')),
-    path('', include('users.urls')),
-    path('events/', include('events.urls')),
-    path('discussion-forum/', include('forum.urls')),
+    # path('blog/', include('blog.urls')),
+    # path('', include('users.urls')),
+    # path('events/', include('events.urls')),
+    # path('discussion-forum/', include('forum.urls')),
 
     # path('inbox/notifications/', include('notifications.urls')),
 
