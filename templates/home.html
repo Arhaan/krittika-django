@@ -10,6 +10,7 @@
 {% endblock %}
 
 {% block content %}
+{% include 'includes/carousel.html' %}
 <div class="p-3" id="about">
     <div class="container card my-md-4 my-3 p-3 pl-4 shadow-lg aboutCard">
       <h1 class="display-4 text-center my-6" style="padding-bottom: 10px;padding-top: 20px;">Krittika: The Astronomy Club, IIT Bombay</h1>
@@ -25,6 +26,5 @@
     </div>
   </div>
 
-{% include 'includes/carousel.html' %}
 {% include 'includes/apod.html' %}
 {% endblock %}
