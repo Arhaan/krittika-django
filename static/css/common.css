@@ -55,3 +55,9 @@ nav a:hover {
 .social-icons:hover{
   transform:scale(1.2);
 }
+#about{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100vh;
+}
