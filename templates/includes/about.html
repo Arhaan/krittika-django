@@ -1,30 +1,20 @@
-{% extends 'mainBase.html' %}
-{% load static %}
+<!-- {% extends 'mainBase.html' %}
+{% load static %} -->
 
-{% block header %}
-<title>Krittika | Home</title>
-<link rel="stylesheet" href="{% static 'css/carousel.css' %}">
-<link rel="stylesheet" href="{% static 'css/owlcarousel/owl.carousel.min.css' %}">
-<link rel="stylesheet" href="{% static 'css/owlcarousel/owl.theme.default.min.css' %}">
-<script src="{% static 'js/owlcarousel/owl.carousel.min.js' %}"></script>
-{% endblock %}
 
-{% block content %}
-<div class="p-3" id="about">
+
+<div>
+  <div class="p-3" id="about">
     <div class="container card my-md-4 my-3 p-3 pl-4 shadow-lg aboutCard">
-      <h1 class="display-4 text-center">About Us</h1>
+      <h1 class="display-4 text-center">About</h1>
         <p>
           Who hasn’t been starstruck by the ethereal beauty of the midnight sky, gazed at the moon’s comforting light and perhaps been thrilled at the sight of a meteor flashing in the darkness of night? And have you ever wished to be able to connect more deeply with all this celestial magnificence? If yes, this is where your wish will come true.
-        </p>
-        <p>
+
           We are Krittika, the Astronomy club of IITB, and our prime motive is to make the Universe more accessible to everyone. We conduct a wide variety of activities - from stargazing sessions where you can gape at the stunning detail in the moon and planets and stellar nebula our telescopes show you (and even try photographing them on the way!), and quizzes and group discussions where you rack your brains on mind-bending topics - to offering projects to taste astronomical research, organizing trips to GMRT and screening evergreen movies on space tech.
-        </p>
-        <p>
+
           Stay tuned on our social media handles to get regular updates on our activities and participate in fun trivia quizzes too
         </p>
     </div>
   </div>
+</div>
 
-{% include 'includes/carousel.html' %}
-{% include 'includes/apod.html' %}
-{% endblock %}
