@@ -2,7 +2,7 @@ import os
 import bleach
 from krittika import data
 import dotenv
-#import django_on_heroku
+import django_on_heroku
 
 # Timezone:
 TIME_ZONE = 'Asia/Kolkata'
@@ -20,14 +20,14 @@ SETTINGS_PATH = os.path.dirname(os.path.dirname(__file__))
 
 dotenv_file = os.path.join(BASE_DIR, ".env")
 if os.path.isfile(dotenv_file):
-    dotenv.load_dotenv(dotenv_file)
+    config = dotenv.dotenv_values(dotenv_file)
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "sadfa2q12341rqef3rq@@#@1341qrq4r231r434"
+SECRET_KEY = config[ "SECRET_KEY" ]
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-DEBUG_PROPAGATE_EXCEPTIONS = True
+DEBUG = False
+DEBUG_PROPAGATE_EXCEPTIONS = False
 
 ALLOWED_HOSTS = ['127.0.0.1', 'krittika-iitb.herokuapp.com','itc.gymkhana.iitb.ac.in', 'krittika.herokuapp.com']
 
