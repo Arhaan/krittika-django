@@ -65,3 +65,6 @@ def faqs_view(request):
 
 def code_of_conduct(request):
     return render(request, 'codeOfConduct.html')
+
+def googleVerificationView(request):
+    return render(request, 'google076b379728b3ef28.html')

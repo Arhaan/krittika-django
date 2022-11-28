@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
 from ckeditor_uploader import views as ckeditor_views
 
-from krittika.views import home_view, about_view, team_view, contact_view, faqs_view, code_of_conduct
+from krittika.views import home_view, about_view, team_view, contact_view, faqs_view, code_of_conduct, googleVerificationView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -15,6 +15,7 @@ urlpatterns = [
     path('', home_view, name='home'),
     # path('about/', about_view, name='about'),
     path('about/team/', team_view, name='team'),
+    path('google076b379728b3ef28.html', googleVerificationView, name='google')
     # path('about/contact-us/', contact_view, name='contact'),
     # path('faqs/', faqs_view, name='faqs'),
     # path('code-of-conduct/', code_of_conduct, name='code_of_conduct'),
