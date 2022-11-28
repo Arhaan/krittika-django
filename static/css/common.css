@@ -45,3 +45,13 @@ nav a:hover {
   color: #fff !important;
   background-color: #444;
 }
+
+
+.social-icons{
+  /* width: 30px;
+  height: 30px; */
+  transition: all 0.2s ease-in 0s;
+}
+.social-icons:hover{
+  transform:scale(1.2);
+}
