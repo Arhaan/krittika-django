@@ -68,3 +68,7 @@ def code_of_conduct(request):
 
 def googleVerificationView(request):
     return render(request, 'google076b379728b3ef28.html')
+
+def githubSite(request):
+    return redirect("https://krittikaiitb.github.io/")
+
